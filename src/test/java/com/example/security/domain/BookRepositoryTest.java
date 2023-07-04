@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @DataJpaTest // DB와 관련된 컴포넌트만 메모리에 등
 public class BookRepositoryTest {
 
@@ -13,7 +15,20 @@ public class BookRepositoryTest {
     // 책 등록
     @Test
     public void save_test() {
-        System.out.println("save_test() 메서드 실행");
+        // given
+        String title = "junit5";
+        String author = "메타코딩";
+        Book book = Book.builder()
+                .title(title)
+                .author(author)
+                .build();
+
+        // when
+        Book bookPS = bookRepository.save(book);
+
+        // then
+        assertEquals(title, bookPS.getTitle());
+        assertEquals(author, bookPS.getAuthor());
     }
 
     // 책 목록 조회
