@@ -5,10 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @DataJpaTest // DB와 관련된 컴포넌트만 메모리에 등록
 public class BookRepositoryTest {
@@ -64,7 +67,7 @@ public class BookRepositoryTest {
     }
 
     // 책 한건 조회
-    @Test
+    @Test @Sql("classpath:db/tableInit.sql")
     public void findById_test() {
         // given
         String title = "junit";
@@ -79,7 +82,19 @@ public class BookRepositoryTest {
 
     }
 
-    // 책 수정
-
     // 책 삭제
+    @Test @Sql("classpath:db/tableInit.sql")
+    public void deleteById_test() {
+        // given
+        Long id = 1L;
+
+        // when
+        bookRepository.deleteById(id);
+
+        // then
+        assertFalse(bookRepository.findById(id).isPresent());
+
+    }
+
+    // 책 수정
 }
