@@ -1,6 +1,5 @@
 package com.example.security.domain;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -63,7 +61,6 @@ public class BookRepositoryTest {
         // then
         assertEquals(title, bookListPS.get(0).getTitle());
         assertEquals(author, bookListPS.get(0).getAuthor());
-
     }
 
     // 책 한건 조회
@@ -79,7 +76,6 @@ public class BookRepositoryTest {
         // then
         assertEquals(title, bookPS.getTitle());
         assertEquals(author, bookPS.getAuthor());
-
     }
 
     // 책 삭제
@@ -93,8 +89,28 @@ public class BookRepositoryTest {
 
         // then
         assertFalse(bookRepository.findById(id).isPresent());
-
     }
 
     // 책 수정
+    @Test @Sql("classpath:db/tableInit.sql")
+    public void updateById_test() {
+        // given
+        Long id = 1L;
+        String title = "junit5";
+        String author = "메타코딩";
+        Book book = Book.builder()
+                .id(id)
+                .title(title)
+                .author(author)
+                .build();
+
+        // when
+        Book bookPS = bookRepository.save(book);
+
+        // then
+        assertEquals(id, bookPS.getId());
+        assertEquals(title, bookPS.getTitle());
+        assertEquals(author, bookPS.getAuthor());
+    }
+
 }
