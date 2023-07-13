@@ -1,9 +1,10 @@
 package com.example.security.web.dto;
 
 import com.example.security.domain.Book;
+import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+@Setter @Getter
 public class BookSaveReqDTO {
     private String titie;
     private String author;

@@ -20,10 +20,12 @@ public class BookService {
 
     // 책 등록
     @Transactional(rollbackFor = RuntimeException.class)
-    public BookResponseDTO 책등록하기(BookSaveReqDTO requestDTO){
+    public BookResponseDTO 책등록하기(BookSaveReqDTO requestDTO) {
         Book bookPS = bookRepository.save(requestDTO.toEntity());
         return new BookResponseDTO().toDTO(bookPS);
-    };
+    }
+
+    ;
 
     // 책 목록 조회
     public List<BookResponseDTO> 책목록보기() {
@@ -45,14 +47,19 @@ public class BookService {
     // 책 삭제
     @Transactional(rollbackFor = RuntimeException.class)
     public void 책삭제(Long id) {
-        Optional<Book> bookOP = bookRepository.findById(id);
-        if (bookOP.isPresent()) {
-            bookRepository.deleteById(id);
-        } else {
-            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
-        }
-
+        bookRepository.deleteById(id);
     }
 
     // 책 수정
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void 책수정(Long id, BookSaveReqDTO reqDTO) {
+        Optional<Book> bookOP = bookRepository.findById(id);
+        if (bookOP.isPresent()) {
+            Book bookPS = bookOP.get();
+            bookPS.update(reqDTO.getTitie(), reqDTO.getAuthor());
+            // 메서드 종료시에 더티체킹(flush)으로 업데이트됨
+        } else {
+            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
+        }
+    }
 }
