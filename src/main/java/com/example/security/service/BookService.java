@@ -43,6 +43,16 @@ public class BookService {
     }
 
     // 책 삭제
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void 책삭제(Long id) {
+        Optional<Book> bookOP = bookRepository.findById(id);
+        if (bookOP.isPresent()) {
+            bookRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
+        }
+
+    }
 
     // 책 수정
 }
