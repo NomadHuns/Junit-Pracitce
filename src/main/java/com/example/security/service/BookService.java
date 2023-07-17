@@ -60,11 +60,12 @@ public class BookService {
 
     // 책 수정
     @Transactional(rollbackFor = RuntimeException.class)
-    public void 책수정(Long id, BookSaveReqDTO reqDTO) {
+    public BookResponseDTO 책수정(Long id, BookSaveReqDTO reqDTO) {
         Optional<Book> bookOP = bookRepository.findById(id);
         if (bookOP.isPresent()) {
             Book bookPS = bookOP.get();
-            bookPS.update(reqDTO.getTitie(), reqDTO.getAuthor());
+            BookResponseDTO responseDTO = bookPS.update(reqDTO.getTitle(), reqDTO.getAuthor());
+            return responseDTO;
             // 메서드 종료시에 더티체킹(flush)으로 업데이트됨
         } else {
             throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");

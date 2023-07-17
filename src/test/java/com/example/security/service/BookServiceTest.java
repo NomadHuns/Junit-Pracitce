@@ -35,7 +35,7 @@ public class BookServiceTest {
     public void 책등록하기_test() {
         // given
         BookSaveReqDTO requestDTO = new BookSaveReqDTO();
-        requestDTO.setTitie("Junit5");
+        requestDTO.setTitle("Junit5");
         requestDTO.setAuthor("metacoding");
 
         // stub
@@ -46,7 +46,7 @@ public class BookServiceTest {
         BookResponseDTO responseDTO = bookService.책등록하기(requestDTO);
 
         // then
-        assertThat(requestDTO.getTitie()).isEqualTo(responseDTO.getTitle());
+        assertThat(requestDTO.getTitle()).isEqualTo(responseDTO.getTitle());
         assertThat(requestDTO.getAuthor()).isEqualTo(responseDTO.getAuthor());
     }
 
@@ -100,5 +100,28 @@ public class BookServiceTest {
         assertThat(book.getTitle()).isEqualTo(responseDTO.getTitle());
         assertThat(book.getAuthor()).isEqualTo(responseDTO.getAuthor());
 
+    }
+
+    @Test
+    public void 책수정_test() {
+        // given
+        Long id = 1L;
+        BookSaveReqDTO requestDTO = new BookSaveReqDTO();
+        requestDTO.setTitle("Spring 강의");
+        requestDTO.setAuthor("메타코딩");
+
+        // stub
+        // 응답할 엔티티 생성
+        Book book = new Book(1L, "junit5", "메타코딩");
+        // Optional에 집어넣기
+        Optional<Book> bookOP = Optional.of(book);
+        when(bookRepository.findById(id)).thenReturn(bookOP);
+
+        // when
+        BookResponseDTO responseDTO = bookService.책수정(id, requestDTO);
+
+        // then
+        assertThat(requestDTO.getTitle()).isEqualTo(responseDTO.getTitle());
+        assertThat(requestDTO.getAuthor()).isEqualTo(responseDTO.getAuthor());
     }
 }

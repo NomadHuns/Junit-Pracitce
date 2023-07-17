@@ -6,12 +6,12 @@ import lombok.Setter;
 
 @Setter @Getter
 public class BookSaveReqDTO {
-    private String titie;
+    private String title;
     private String author;
 
     public Book toEntity() {
         return Book.builder()
-                .title(titie)
+                .title(title)
                 .author(author)
                 .build();
     }
