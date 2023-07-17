@@ -29,7 +29,7 @@ public class BookService {
                 throw new RuntimeException("메일이 전송되지 않았습니다.");
             }
         }
-        return new BookResponseDTO().toDTO(bookPS);
+        return bookPS.toDTO();
     }
 
     ;
@@ -37,7 +37,7 @@ public class BookService {
     // 책 목록 조회
     public List<BookResponseDTO> 책목록보기() {
         return bookRepository.findAll().stream()
-                .map((bookPS) -> new BookResponseDTO().toDTO(bookPS))
+                .map(Book::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -45,7 +45,8 @@ public class BookService {
     public BookResponseDTO 책한건보기(Long id) {
         Optional<Book> bookOP = bookRepository.findById(id);
         if (bookOP.isPresent()) {
-            return new BookResponseDTO().toDTO(bookOP.get());
+            Book bookPS = bookOP.get();
+            return bookPS.toDTO();
         } else {
             throw new RuntimeException("해당 아이디를 찾을 수 없습니다.");
         }

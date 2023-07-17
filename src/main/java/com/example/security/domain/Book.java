@@ -1,5 +1,6 @@
 package com.example.security.domain;
 
+import com.example.security.web.dto.BookResponseDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,5 +29,13 @@ public class Book {
     public void update(String title, String author) {
         this.title = title;
         this.author = author;
+    }
+
+    public BookResponseDTO toDTO() {
+        return BookResponseDTO.builder()
+                .id(this.id)
+                .title(this.title)
+                .author(this.getAuthor())
+                .build();
     }
 }

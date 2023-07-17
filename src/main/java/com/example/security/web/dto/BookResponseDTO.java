@@ -9,10 +9,10 @@ public class BookResponseDTO {
     private String title;
     private String author;
 
-    public BookResponseDTO toDTO(Book bookPS) {
-        this.id = bookPS.getId();
-        this.title = bookPS.getTitle();
-        this.author = bookPS.getAuthor();
-        return this;
+    @Builder
+    public BookResponseDTO(Long id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
     }
 }
