@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -76,6 +77,28 @@ public class BookServiceTest {
         // Book의 author 비교
         assertThat(bookList.get(0).getAuthor()).isEqualTo(bookResponseDTOList.get(0).getAuthor());
         assertThat(bookList.get(1).getAuthor()).isEqualTo(bookResponseDTOList.get(1).getAuthor());
+
+    }
+
+    @Test
+    public void 책한건보기_test() {
+        // given
+        Long id = 1L;
+
+        // stub
+        // 응답할 엔티티 생성
+        Book book = new Book(1L, "junit5", "메타코딩");
+        // Optional에 집어넣기
+        Optional<Book> bookOP = Optional.of(book);
+        // bookRepository.findById() 메서드 호출 시 리턴될 객체 정의
+        when(bookRepository.findById(id)).thenReturn(bookOP);
+
+        // when
+        BookResponseDTO responseDTO = bookService.책한건보기(id);
+
+        // then
+        assertThat(book.getTitle()).isEqualTo(responseDTO.getTitle());
+        assertThat(book.getAuthor()).isEqualTo(responseDTO.getAuthor());
 
     }
 }
