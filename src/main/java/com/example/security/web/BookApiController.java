@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -46,12 +43,16 @@ public class BookApiController {
         return new ResponseEntity<>(CMRespDTO.builder().code(1).msg("책 목록보기 성공").body(responseDTO).build(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> getBookOne() {
-        return null;
+    @GetMapping("/api/v1/book/{id}")
+    public ResponseEntity<?> getBookOne(@PathVariable Long id) {
+        BookResponseDTO responseDTO = bookService.책한건보기(id);
+        return new ResponseEntity<>(CMRespDTO.builder().code(1).msg("책 한건 보기 성공").body(responseDTO).build(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> deleteBook() {
-        return null;
+    @DeleteMapping("/api/v1/book/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable Long id) {
+        bookService.책삭제(id);
+        return new ResponseEntity<>(CMRespDTO.builder().code(1).msg("책 한건 보기 성공").body(null).build(), HttpStatus.OK);
     }
 
     public ResponseEntity<?> updateBook() {
