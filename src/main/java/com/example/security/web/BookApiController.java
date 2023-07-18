@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,7 +23,6 @@ public class BookApiController {
 
     @PostMapping("/api/v1/book")
     public ResponseEntity<?> saveBook(@RequestBody @Valid BookSaveReqDTO requestDTO, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             Map<String, String> errorMap = new HashMap<>();
             for (FieldError fe : bindingResult.getFieldErrors()) {
@@ -52,10 +50,22 @@ public class BookApiController {
     @DeleteMapping("/api/v1/book/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable Long id) {
         bookService.책삭제(id);
-        return new ResponseEntity<>(CMRespDTO.builder().code(1).msg("책 한건 보기 성공").body(null).build(), HttpStatus.OK);
+        return new ResponseEntity<>(CMRespDTO.builder().code(1).msg("책 삭제 성공").body(null).build(), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> updateBook() {
-        return null;
+    @PutMapping("/api/v1/book/{id}")
+    public ResponseEntity<?> updateBook(@PathVariable Long id, @RequestBody @Valid BookSaveReqDTO requestDTO,
+                                        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                errorMap.put(fe.getField(), fe.getDefaultMessage());
+            }
+            throw new RuntimeException(errorMap.toString());
+        }
+
+        BookResponseDTO responseDTO = bookService.책수정(id, requestDTO);
+        return new ResponseEntity<>(CMRespDTO.builder().code(1).msg("책 수정 성공").body(responseDTO).build(), HttpStatus.OK);
+
     }
 }
