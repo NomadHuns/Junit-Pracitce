@@ -3,6 +3,7 @@ package com.example.security.service;
 import com.example.security.domain.Book;
 import com.example.security.domain.BookRepository;
 import com.example.security.util.MailSender;
+import com.example.security.web.dto.response.BookListResponseDTO;
 import com.example.security.web.dto.response.BookResponseDTO;
 import com.example.security.web.dto.request.BookSaveReqDTO;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +36,13 @@ public class BookService {
     ;
 
     // 책 목록 조회
-    public List<BookResponseDTO> 책목록보기() {
-        return bookRepository.findAll().stream()
+    public BookListResponseDTO 책목록보기() {
+        List<BookResponseDTO> bookResponseDTOList =
+                bookRepository.findAll().stream()
                 .map(Book::toDTO)
                 .collect(Collectors.toList());
+
+        return new BookListResponseDTO(bookResponseDTOList);
     }
 
     // 책 한건 조회

@@ -3,6 +3,7 @@ package com.example.security.service;
 import com.example.security.domain.Book;
 import com.example.security.domain.BookRepository;
 import com.example.security.util.MailSender;
+import com.example.security.web.dto.response.BookListResponseDTO;
 import com.example.security.web.dto.response.BookResponseDTO;
 import com.example.security.web.dto.request.BookSaveReqDTO;
 import org.junit.jupiter.api.Test;
@@ -67,16 +68,16 @@ public class BookServiceTest {
 
         // when
         // 테스트할 서비스 호출
-        List<BookResponseDTO> bookResponseDTOList = bookService.책목록보기();
+        BookListResponseDTO responseDTO = bookService.책목록보기();
 
         // then
         // Book의 title 비교
-        assertThat(bookList.get(0).getTitle()).isEqualTo(bookResponseDTOList.get(0).getTitle());
-        assertThat(bookList.get(1).getTitle()).isEqualTo(bookResponseDTOList.get(1).getTitle());
+        assertThat(bookList.get(0).getTitle()).isEqualTo(responseDTO.getItems().get(0).getTitle());
+        assertThat(bookList.get(1).getTitle()).isEqualTo(responseDTO.getItems().get(1).getTitle());
 
         // Book의 author 비교
-        assertThat(bookList.get(0).getAuthor()).isEqualTo(bookResponseDTOList.get(0).getAuthor());
-        assertThat(bookList.get(1).getAuthor()).isEqualTo(bookResponseDTOList.get(1).getAuthor());
+        assertThat(bookList.get(0).getAuthor()).isEqualTo(responseDTO.getItems().get(0).getAuthor());
+        assertThat(bookList.get(1).getAuthor()).isEqualTo(responseDTO.getItems().get(1).getAuthor());
 
     }
 
