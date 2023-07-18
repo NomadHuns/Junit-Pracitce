@@ -1,4 +1,4 @@
-package com.example.security.web.dto;
+package com.example.security.web.dto.response;
 
 import com.example.security.domain.Book;
 import lombok.*;

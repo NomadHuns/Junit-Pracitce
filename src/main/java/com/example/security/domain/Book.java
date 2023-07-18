@@ -1,6 +1,6 @@
 package com.example.security.domain;
 
-import com.example.security.web.dto.BookResponseDTO;
+import com.example.security.web.dto.response.BookResponseDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
